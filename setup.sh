@@ -1,131 +1,255 @@
 #!/bin/bash
 
-# Function Definitions
-showMainMenuOptions(){
-    clear
-    echo "Choose the theme that you want to apply : "
-    echo "1. GTK Graphite"
-    echo "2. My P Theme"
-    echo "3. Windows 11"
-    echo "4. Windows Everforest Dark"
-    echo "<CTRL+C>. Quit"
-    echo -n "Enter Option: "
-}
+# External Functions
+source src/utils.sh
 
-chooseMainMenuOptions(){
-    case $1 in
+# Logging setup
+
+# LOG File
+LOG_FILE=src/logfile.log
+
+# Initialize log file
+echo "Starting script execution at $(date)" > "$LOG_FILE"
+
+# Linux Mint Menu
+showMintMenu(){
+    log_message "INFO" "Displaying Linux Mint Menu"
+    showMenu \
+    "          Linux Mint              " \
+    "21.3 - Cinnamon Edition" \
+    "Return To Main Menu"
+
+    read option
+    log_message "INFO" "User selected option $option in Linux Mint Menu"
+    case $option in
         1)
-            applyGGTheme
+            log_message "INFO" "User chose 21.3 - Cinnamon Edition"
+            showMint213CMenu
             ;;
         2)
-            applyPTheme
+            log_message "INFO" "User chose to return to Main Menu"
+            showMainMenu
+            ;;
+        *)
+            log_message "WARN" "User chose an invalid option : $option"
+            invalidOption showMintMenu
+            ;;
+    esac
+}
+
+# Linux Mint 21.3 Cinnamon Menu
+showMint213CMenu(){
+    log_message "INFO" "Displaying Linux Mint 21.3 - Cinnamon DE Menu"
+    showMenu \
+    " Linux Mint 21.3 - Cinnamon DE    " \
+    "MacOS BigSur" \
+    "Windows 7" \
+    "Return To Main Menu"
+
+    read option
+    log_message "INFO" "User selected option $option in Linux Mint 21.3 - Cinnamon DE Menu"
+    case $option in
+    1)
+        log_message "INFO" "User chose MacOS BigSur"
+        showBigSurMenu
+        ;;
+    2)
+        log_message "INFO" "User chose Windows 7"
+        showWindows7Menu
+        ;;
+    3)
+        log_message "INFO" "User chose to return to Main Menu"
+        showMainMenu
+        ;;
+    *)
+        log_message "WARN" "User chose an invalid option : $option"
+        invalidOption showMint213CMenu
+        ;;
+    esac
+}
+
+# Windows 7 theme for LM Menu
+showWindows7Menu(){
+
+    log_message "INFO" "Displaying Windows 7 Menu"
+
+    themeMenu "         Selected Theme : Windows 7        " \
+    "${themePaths["Win7"]}/install_windows7.sh" \
+    "${themePaths["Win7"]}/Screenshots/" \
+    "nemo" \
+    "showMint213CMenu"
+}
+
+# MacOS BigSur theme for LM Menu
+showBigSurMenu(){
+    log_message "INFO" "Displaying MacOS BigSur Menu"
+
+    themeMenu "         Selected Theme : MacOS BigSur     " \
+    "${themePaths["BigSur"]}/install_bigsur.sh" \
+    "${themePaths["BigSur"]}/Screenshots/" \
+    "nemo" \
+    "showMint213CMenu"
+}
+
+# Ubuntu Menu
+showUbuntuMenu(){
+    log_message "INFO" "Displaying Ubuntu Menu"
+    showMenu \
+    "               Ubuntu             " \
+    "22.04 LTS - GNOME 42" \
+    "24.04 LTS - GNOME 46" \
+    "Return To Main Menu"
+
+    read option
+    log_message "INFO" "User selected option $option in Ubuntu Menu"
+    case $option in 
+        1)
+            log_message "INFO" "User chose 22.04 LTS - GNOME 42"
+            showUbuntu22LTSGMenu
+            ;;
+        2)
+            log_message "INFO" "User chose 24.04 LTS - GNOME 46"
+            showUbuntu24LTSGMenu
             ;;
         3)
-            applyWinETheme
+            log_message "INFO" "User chose to return to Main Menu"
+            showMainMenu
+            ;;
+        *)
+            log_message "WARN" "User chose an invalid option : $option"
+            invalidOption showUbuntuMenu
+            ;;
+    esac
+ 
+}
+
+# Ubuntu 22.04 Menu
+showUbuntu22LTSGMenu(){
+    log_message "INFO" "Displaying Ubuntu 22.04 LTS - GNOME 42 DE Menu"
+
+    showMenu \
+    " Ubuntu 22.04 LTS - GNOME 42 DE   " \
+    "GTK Graphite" \
+    "My P Theme" \
+    "Windows 11" \
+    "Windows Everforest Dark" \
+    "Return To Previous Menu"
+
+    read option
+    log_message "INFO" "User selected option $option in Ubuntu 22.04 LTS - GNOME 42 DE"
+    case $option in
+        1)
+            log_message "INFO" "User chose GTK Graphite"
+            showGGThemeMenu
+            ;;
+        2)
+            log_message "INFO" "User chose My P Theme"
+            showPThemeMenu
+            ;;
+        3)
+            log_message "INFO" "User chose Windows 11"
+            showWinEThemeMenu
             ;;
         4)
-            applyWinEDTheme
+            log_message "INFO" "User chose Windows Everforest Dark"
+            showWinEDThemeMenu
+            ;;
+        5)
+            log_message "INFO" "User chose to return to previous Menu"
+            showUbuntuMenu
+            ;;
+        *)
+            log_message "WARN" "User chose an invalid option : $option"
+            invalidOption showUbuntu22LTSGMenu
             ;;
     esac
 }
 
-applyGGTheme(){
-    clear
-    Path="Ubuntu-GNOME-42/GTK-Graphite"
-    echo "-> GTK Graphite :"
-    echo "1. Apply Theme"
-    echo "2. Preview Theme"
-    echo -n "Enter Option: "
-    read option
-    case $option in
-        1)
-            bash $Path/restore.sh
-            ;;
-        2)
-            nautilus $Path/Screenshots/
-            ;;
-        *)
-            echo "No Option Selected"
-            ;;
-    esac
-    echo "Press Enter to Go back to Main Menu ..."
-    read
+# GTK Graphite Menu
+showGGThemeMenu(){
+
+    themeMenu \
+    "        Selected Theme : GTK Graphite      " \
+    "${themePaths["GTKGraphite"]}/install_GG.sh" \
+    "${themePaths["GTKGraphite"]}/Screenshots/" \
+    "nautilus" "showUbuntu22LTSGMenu"
 }
 
-applyPTheme(){
-    clear
-    Path="Ubuntu-GNOME-42/My-Theme"
-    echo "-> My P Theme :"
-    echo "1. Apply Theme"
-    echo "2. Preview Theme"
-    echo -n "Enter Option: "
-    read option
-    case $option in
-        1)
-            bash $Path/restore.sh
-            ;;
-        2)
-            nautilus $Path/Screenshots/
-            ;;
-        *)
-            echo "No Option Selected"
-            ;;
-    esac
-    echo "Press Enter to Go back to Main Menu ..."
-    read
+# My Personal Theme Menu
+showPThemeMenu(){
+
+    themeMenu \
+    "         Selected Theme : My P Theme       " \
+    "${themePaths["PTheme"]}/install_MP.sh" \
+    "${themePaths["PTheme"]}/Screenshots/" \
+    "nautilus" "showUbuntu22LTSGMenu"
 }
 
-applyWinETheme(){
-    clear
-    Path="Ubuntu-GNOME-42/Windows-11"
-    echo "-> Windows 11 :"
-    echo "1. Apply Theme"
-    echo "2. Preview Theme"
-    echo -n "Enter Option: "
-    read option
-    case $option in
-        1)
-            bash $Path/restore.sh
-            ;;
+# Windows 11 Theme Menu
+showWinEThemeMenu(){
 
-        2)
-            nautilus $Path/Screenshots/
-            ;;
-        *)
-            echo "No Option Selected !"
-            ;;
-    esac
-    echo "Press Enter to Go back to Main Menu ..."
-    read
+    themeMenu \
+    "         Selected Theme : Windows 11       " \
+    "${themePaths["Win11"]}/install_Win11.sh" \
+    "${themePaths["Win11"]}/Screenshots/" \
+    "nautilus" \
+    "showUbuntu22LTSGMenu"
 }
 
-applyWinEDTheme(){
+# Windows Everforest Theme Menu
+showWinEDThemeMenu(){
+
+    themeMenu \
+    "   Selected Theme : Windows Everforest Dark" \
+    "${themePaths["WinEverforestDark"]}/install_Win11.sh" \
+    "${themePaths["WinEverforestDark"]}/Screenshots/" \
+    "nautilus" \
+    "showUbuntu22LTSGMenu"
+}
+
+# Ubuntu 24.04
+showUbuntu24LTSGMenu(){
+    log_message "INFO" "Displaying Ubuntu 24.04 LTS - GNOME 46 DE Menu"
     clear
-    Path="Ubuntu-GNOME-42/Windows-Everforest-Dark"
-    echo "-> Windows Everforest Dark :"
-    echo "1. Apply Theme"
-    echo "2. Preview Theme"
-    echo -n "Enter Option: "
+    echo 'Themes Will Be Available Soon For Ubuntu 24.04...'
+    sleep 2
+    showUbuntuMenu
+}
+
+# Main Menu
+showMainMenu(){
+    clear
+    log_message "INFO" "Displaying Main Menu"
+    echo "--------------------------------------"
+    echo "|   Welcome to the Theme Installer   |"
+    echo "--------------------------------------"
+    echo 'Choose Your Linux Distribution :'
+    echo '1. Ubuntu'
+    echo '2. Linux Mint'
+    echo "q. Quit"
+    echo -n "Enter Option : "
     read option
+    log_message "INFO" "User selected option $option in Main Menu"
+
     case $option in
         1)
-            bash $Path/restore.sh
+            showUbuntuMenu
+            log_message "INFO" "User chose Ubuntu"
             ;;
         2)
-            nautilus $Path/Screenshots/
+            showMintMenu
+            log_message "INFO" "User chose Linux Mint"
+            ;;
+        q)
+            log_message "INFO" "User chose to quit"
+            exit 1
             ;;
         *)
-            echo "No Option Selected"
+            log_message "WARN" "User chose an invalid option : $option"
+            invalidOption showMainMenu
             ;;
     esac
-    echo "Press Enter to Go back to Main Menu ..."
-    read
 }
 
 # Main Script
-while :
-do
-    showMainMenuOptions
-    read option
-    chooseMainMenuOptions $option 
-done
+showMainMenu
