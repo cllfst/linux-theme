@@ -1,5 +1,5 @@
-# My Theme Script :
-A TUI script that helps you install Themes according to your Linux Distribution
+# Linux Theme Script :
+A TUI script that helps you install Custom Themes according to your Linux Distribution
 <br><br>
 We Have 2 Distributions currently :
 *   Ubuntu
@@ -17,12 +17,14 @@ A simple idea of the script :
 
 To run the script : 
 <pre>
-  $ git clone https://github.com/MHJedli/theme_script.git
-  $ cd theme_script/
+  $ git clone https://github.com/cllfst/linux-theme.git
+  $ cd linux-theme/
   $ bash setup.sh or ./setup.sh
 </pre>
 
 # NOTE :
 *   The script is still improving by time. So you can expect new themes and/or new features in the future.
+*   You can contribute to make our script better by forking this repository and creating PRs
+*   Extra help is always appreciated ❤️
 
 
