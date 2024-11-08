@@ -48,12 +48,13 @@ https://github.com/user-attachments/assets/636b8a98-59e4-4425-b3ce-0e2dfd88c2e3
 
 To run the script : 
 <pre>
-  $ git clone https://github.com/MHJedli/theme_script.git
-  $ cd theme_script/
+  $ git clone https://github.com/cllfst/linux-theme.git
+  $ cd linux-theme/
   $ bash setup.sh or ./setup.sh
 </pre>
 
 # NOTE :
 *   The script is still improving by time. So you can expect new themes and/or new features in the future.
-
+*   You can contribute to make our script better by forking this repository and creating PRs
+*   Extra help is always appreciated ❤️
 
