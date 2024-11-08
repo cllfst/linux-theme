@@ -15,6 +15,9 @@ log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') [$LOG_LEVEL] $MESSAGE" >> "$LOG_FILE"
 }
 
+downloadFile(){
+    wget -O "$2" "https://drive.usercontent.google.com/download?id=$1&export=download&confirm=yes"
+}
 
 # Function that handle errors
 # Parameters :
@@ -26,6 +29,7 @@ handle_error() {
     log_message "ERROR" "$msg (Exit status: $exit_status)"
     echo "An error occurred: $msg"
     echo "Please check the log file at $LOG_FILE for more details."
+    read
     exit $exit_status
 }
 
@@ -33,10 +37,12 @@ handle_error() {
 declare -A themePaths=(
     ["BigSur"]="src/Mint/21.3/Cinnamon-BigSur"
     ["Win7"]="src/Mint/21.3/Windows-7"
+    ["Ventura"]="src/Mint/21.3/Cinnamon-Ventura"
     ["GTKGraphite"]="src/Ubuntu/22.04/GNOME-42/GTK-Graphite"
     ["PTheme"]="src/Ubuntu/22.04/GNOME-42/My-Theme"
     ["Win11"]="src/Ubuntu/22.04/GNOME-42/Windows-11"
     ["WinEverforestDark"]="src/Ubuntu/22.04/GNOME-42/Windows-Everforest-Dark"
+    ["MacV1"]="src/Ubuntu/22.04/GNOME-42/MacOS-V1"
 )
 
 # invalidOption print Function
@@ -74,19 +80,21 @@ showMenu() {
 # Function that prints the menu of a selected theme
 # Parameters :
 # $1 : Title
-# $2 : Script.sh
-# $3 : Screenshot Directory
-# $4 : File Manager
-# $5 : Previous Menu to the Current one
+# $2 : Install_Script.sh
+# $3 : Reset_Script.sh
+# $4 : Screenshot Directory
+# $5 : File Manager
+# $6 : Previous Menu to the Current one
 # Usage :
 # themeMenu "Selected Theme : <Theme Name>" "${themePaths["<Theme_Key>"]}/<Theme_Script>.sh" "${themePaths["<Theme_Key>"]}/Screenshots/" "<File_Manager>" "<Current_Menu_Name>"
 themeMenu() {
     local theme=$1
     local trimmedTheme=$(echo "$theme" | awk '{$1=$1};1')
     local installScript=$2
-    local screenshotsDir=$3
-    local fileManager=$4
-    local previousMenu=$5
+    local resetScript=$3
+    local screenshotsDir=$4
+    local fileManager=$5
+    local previousMenu=$6
     while true; do
         log_message "INFO" "Displaying the $(echo "$trimmedTheme" | awk '{$1=$1};1') Menu"
         clear
@@ -95,7 +103,8 @@ themeMenu() {
         echo "-------------------------------------------------"
         echo "1. Apply Theme"
         echo "2. Preview Theme"
-        echo "3. Return To Previous Menu"
+        echo "3. Reset to Factory Defaults"
+        echo "4. Return To Previous Menu"
         echo -n "Enter Option: "
         read option
         log_message "INFO" "User selected option $option in the $trimmedTheme"
@@ -109,6 +118,10 @@ themeMenu() {
                 $fileManager "$screenshotsDir" 
                 ;;
             3)
+                log_message "INFO" "User chose to Reset to Factory Defaults"
+                bash "$resetScript"
+                ;;
+            4)
                 log_message "INFO" "User chose to return to Previous Menu"
                 "$previousMenu"
                 return 
