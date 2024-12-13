@@ -18,10 +18,14 @@ if check_internet; then
     sudo apt update || handle_error "Failed to update System Database"
     clear
 
+<<<<<<< HEAD
     log_message "INFO" "Installing Dconf Editor , GNOME Tweaks and GNOME Extensions , conky"
+=======
+    log_message "INFO" "Installing Dconf Editor , GNOME Tweaks and GNOME Extensions"
+>>>>>>> 7913c84 (update: theme script for enhancements)
     echo "-> Installing Dconf Editor , GNOME Tweaks and GNOME Extensions..."
     sleep 1
-    sudo apt install dconf-editor gnome-tweaks gnome-shell-extensions jq curl conky -y || handle_error "Failed to install Packages"
+    sudo apt install dconf-editor gnome-tweaks gnome-shell-extensions jq curl -y || handle_error "Failed to install Packages"
     clear
 
     log_message "INFO" "Installing Themes and Icons"
@@ -39,6 +43,7 @@ if check_internet; then
     sleep 1
     downloadFile "1DUIah7NfCBdIshA1737ToQmdB2cwJd5H" "${themePaths["GTKGraphite"]}/my-extensions.tar.gz" || handle_error "Failed to Download GTK Graphite Extensions"
     tar --extract --file $path/my-extensions.tar.gz -C ~/ --strip-components=2 || handle_error "Failed to extract Extensions"
+<<<<<<< HEAD
     clear
 
     while true; do
@@ -69,6 +74,8 @@ if check_internet; then
                 invalidOption
             fi
     done
+=======
+>>>>>>> 7913c84 (update: theme script for enhancements)
 
     clear
     log_message "INFO" "Applying GTK Graphite Configurations"
