@@ -30,6 +30,7 @@ sleep 1
 rm -rf $HOME/.themes $HOME/.local/share/icons || handle_error "Failed to Remove Themes and Icons Pack"
 clear
 
+<<<<<<< HEAD
 while true; do
 
     echo -n "Did you install Conky System Monitor and Weather Widget ? (Y/n): "
@@ -60,6 +61,8 @@ while true; do
 
 done
 
+=======
+>>>>>>> 7913c84 (update: theme script for enhancements)
 log_message "INFO" "Applying Factory Defaults"
 echo "Reverting to Factory Defaults..."
 sleep 1
